@@ -1,6 +1,7 @@
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
+import Divider from "@mui/material/Divider";
 import { Box, Card, IconButton, useMediaQuery } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
@@ -26,11 +27,6 @@ import Results from "./components/Results";
 
 //utils
 import { convertDate } from "../../utils/convertDate";
-import DefaultLineChart from "examples/Charts/LineCharts/DefaultLineChart";
-import InflacionChart from "./components/InflacionChart";
-import Header from "layouts/profile/components/Header";
-import InflaHeader from "./components/InflaHeader";
-import Divider from "@mui/material/Divider";
 
 const Comparador = () => {
   const [contado, setContado] = useState("");
@@ -46,7 +42,9 @@ const Comparador = () => {
 
   useEffect(() => {
     if (showResults) {
-      resultsRef.current.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        resultsRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     }
   }, [showResults]);
 
@@ -67,11 +65,9 @@ const Comparador = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log({ matches });
-  }, [matches]);
-
-
+  // useEffect(() => {
+  //   console.log({ matches });
+  // }, [matches]);
 
   const restart = () => {
     setContado("");
@@ -171,7 +167,11 @@ const Comparador = () => {
 
                   <SoftInput
                     type="number"
-                    placeholder={inflacionMensual.valor ? `${inflacionMensual.valor}% (valor debe ser menor o igual a 10)` : "8.5%"}
+                    placeholder={
+                      inflacionMensual.valor
+                        ? `${inflacionMensual.valor}% (valor debe ser menor o igual a 10)`
+                        : "8.5%"
+                    }
                     icon={{
                       component: "request_quote",
                       direction: "right",
