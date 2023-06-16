@@ -16,6 +16,7 @@ const useInflacion = () => {
         const dataAnual = await responseAnual.json();
         // console.log(dataAnual);
         
+        // console.log(dataMensual.data.inflacion_mensual);a\aaa 
         setInflacionMensual(dataMensual);
         setInflacionAnual(dataAnual);
       } catch (error) {

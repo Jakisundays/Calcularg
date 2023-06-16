@@ -270,7 +270,7 @@ const Comparador = () => {
         ref={resultsRef}
         id="results"
         style={{
-          visibility: showResults ? "visible" : "hidden",
+          // visibility: showResults ? "visible" : "hidden",
           transition: "all 0.5s ease-in-out",
           display: showResults ? "block" : "none",
         }}
