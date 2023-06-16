@@ -1,11 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-node_modules/
-/node_modules/
-/server/node_modules/
-/client/node_modules/
 node_modules
+node_modules/
 reqs/
 reqs
 /server/reqs
@@ -18,6 +15,7 @@ reqs
 /build
 
 # misc
+.http
 .DS_Store
 .env
 .env.local
