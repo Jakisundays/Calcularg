@@ -62,6 +62,8 @@ const obtenerDatosPeriodicamente = () => {
   setInterval(obtenerInflacionAnual, 1000 * 60 * 60 * 24 * 15);
 };
 
+const development = false;
+
 // Run the server!
 const start = async () => {
   await app.after();
@@ -77,14 +79,17 @@ const start = async () => {
   } catch (error) {
     console.log(error);
   }
-  app.listen({ port: app.config.PORT }, (err, address) => {
-    if (err) {
-      console.log(err);
-      app.log.error(err);
-      process.exit(1);
+  app.listen(
+    { port: app.config.PORT, host: development ? "localhost" : "0.0.0.0" },
+    (err, address) => {
+      if (err) {
+        console.log(err);
+        app.log.error(err);
+        process.exit(1);
+      }
+      obtenerDatosPeriodicamente();
+      console.log(`Server listening on ${address}`);
     }
-    obtenerDatosPeriodicamente()
-    console.log(`Server listening on ${address}`);
-  });
+  );
 };
 start();
