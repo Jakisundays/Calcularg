@@ -6,13 +6,14 @@ const useInflacion = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+
       try {
-        const responseMensual = await fetch(`${process.env.SERVER_URL}/api/brca/inflacion_mensual`);
+        const responseMensual = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/brca/inflacion_mensual`);
         const dataMensual = await responseMensual.json();
         // console.log(dataMensual);
         setInflacionMensual(dataMensual);
 
-        const responseAnual = await fetch(`${process.env.SERVER_URL}/api/brca/inflacion_anual`);
+        const responseAnual = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/brca/inflacion_anual`);
         const dataAnual = await responseAnual.json();
         // console.log(dataAnual);
         setInflacionAnual(dataAnual);
