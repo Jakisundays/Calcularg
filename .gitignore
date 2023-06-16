@@ -2,6 +2,9 @@
 
 # dependencies
 node_modules/
+node_modules
+reqs/
+reqs
 /server/reqs
 .DS_Store
 
