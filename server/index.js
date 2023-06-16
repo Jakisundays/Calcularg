@@ -20,7 +20,7 @@ app.setErrorHandler((error, request, reply) => {
 
 // Declare a route
 app.get("/", async (request, reply) => {
-  return { hello: "world" };
+  return { Calacularg: "Finance tool." };
 });
 
 app.register(require("./routes/bcra.route"), { prefix: "/api/brca" });
@@ -83,7 +83,7 @@ const start = async () => {
       app.log.error(err);
       process.exit(1);
     }
-    // obtenerDatosPeriodicamente()
+    obtenerDatosPeriodicamente()
     console.log(`Server listening on ${address}`);
   });
 };
