@@ -1,11 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-node_modules
-node_modules/
-reqs/
-reqs
-/server/reqs
+server/node_modules
+client/node_modules
+server/reqs
 .DS_Store
 
 # testing
@@ -31,3 +29,7 @@ package-lock.json
 yarn.lock
 
 commit.sh
+node_modules/
+node_modules/
+node_modules/
+node_modules/
