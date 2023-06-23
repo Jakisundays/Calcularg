@@ -60,11 +60,6 @@ export const calcularInversion = (contado, porcentaje, cantidadCuotas, monto) =>
   for (let i = 0; i < cantidadCuotas; i++) {
     inversionAnualMenosCuotas = (inversionAnualMenosCuotas * adjustedRate) - monto;
   }
-  console.log({
-    inversionAnual: Math.round(inversionAnual),
-    inversionAnualMenosCuotas: Math.round(inversionAnualMenosCuotas),
-    monto
-  })
   
   return {
     inversionAnual: Math.round(inversionAnual),
