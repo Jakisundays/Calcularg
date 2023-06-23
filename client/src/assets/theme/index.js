@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // @mui material components
 import { createTheme } from "@mui/material/styles";
 
@@ -108,7 +93,7 @@ export default createTheme({
     MuiIconButton: { ...iconButton },
     MuiInputBase: { ...inputBase },
     MuiMenu: { ...menu },
-    MuiMenuItem: { ...menuItem },
+    // MuiMenuItem: { ...menuItem },
     MuiSwitch: { ...switchButton },
     MuiDivider: { ...divider },
     MuiTableContainer: { ...tableContainer },
@@ -127,15 +112,15 @@ export default createTheme({
     MuiStepConnector: { ...stepConnector },
     MuiStepLabel: { ...stepLabel },
     MuiStepIcon: { ...stepIcon },
-    MuiSelect: { ...select },
+    // MuiSelect: { ...select },
     MuiFormControlLabel: { ...formControlLabel },
     MuiFormLabel: { ...formLabel },
     MuiCheckbox: { ...checkbox },
     MuiRadio: { ...radio },
     MuiAutocomplete: { ...autocomplete },
     MuiInput: { ...input },
-    MuiOutlinedInput: { ...input },
-    MuiFilledInput: { ...input },
+    // MuiOutlinedInput: { ...input },
+    // MuiFilledInput: { ...input },
     MuiPopover: { ...popover },
     MuiButtonBase: { ...buttonBase },
     MuiIcon: { ...icon },

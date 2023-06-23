@@ -4,6 +4,7 @@ const AnualInflacion = require("../models/inflacionAnual.model");
 const brcaRoutes = async (fastify, opts, done) => {
   fastify.get("/inflacion_mensual", async (request, reply) => {
     // console.log("entro a la ruta mensual");
+    
     try {
       const lastInflacion = await MesInflacion.findOne().sort({ fecha: -1 }); // Ordenar por el campo "dia" en orden descendente para obtener el último valor agregado
       // console.log({lastInflacion})

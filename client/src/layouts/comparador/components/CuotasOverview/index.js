@@ -10,6 +10,7 @@ import SoftTypography from "components/SoftTypography";
 // Soft UI Dashboard React examples
 import TimelineItem from "examples/Timeline/TimelineItem";
 import CuotasInfoCard from "examples/Cards/InfoCards/CuotasInfoCard";
+import { agregarEspacios } from "utils/calculadora";
 
 const CuotasOverview = ({ cuotasVisuales }) => {
   return (
@@ -37,7 +38,7 @@ const CuotasOverview = ({ cuotasVisuales }) => {
               icon="receipt_long"
               color="info"
               title={`Cuota #${index + 1}`}
-              value={`$${Math.round(cuota)}`}
+              value={`$ ${agregarEspacios(Math.round(cuota))}`}
             />
           ))}
       </SoftBox>

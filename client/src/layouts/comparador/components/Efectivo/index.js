@@ -2,6 +2,7 @@
 import Card from "@mui/material/Card";
 // import Divider from "@mui/material/Divider";
 import Icon from "@mui/material/Icon";
+import PropTypes from "prop-types";
 
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
@@ -10,7 +11,7 @@ import SoftTypography from "components/SoftTypography";
 // Billing page components
 import CashTransaction from "../CashTransaction";
 
-const Efectivo = () => {
+const Efectivo = ({ mp, pf }) => {
   const showFormattedDate = () => {
     const months = [
       "January",
@@ -72,18 +73,18 @@ const Efectivo = () => {
           m={0}
           sx={{ listStyle: "none" }}
         >
-          <CashTransaction color="error" icon="percent" name="Anual" value="$2,500" />
+          <CashTransaction color="primary" icon="percent" name="Anual" value="80 %" />
           <CashTransaction
-            color="success"
-            icon="arrow_upward"
+            color={mp.inversionAnual > 0 ? 'success' : 'error'}
+            icon={mp.inversionAnual > 0 ? 'arrow_upward' : 'arrow_downward'}
             name="Sin sacar el dinero en 12 meses"
-            value="$ 2,000"
+            value={`$ ${mp.inversionAnual}`}
           />
           <CashTransaction
-            color="success"
-            icon="arrow_upward"
+            color={mp.inversionAnualMenosCuotas > 0 ? 'success' : 'error'}
+            icon={mp.inversionAnualMenosCuotas > 0 ? 'arrow_upward' : 'arrow_downward'}
             name="Retirando la cuota mes a mes para pagar la tarjeta"
-            value="$ 2,000"
+            value={`$ ${mp.inversionAnualMenosCuotas}`}
           />
         </SoftBox>
         <SoftBox mt={1} mb={2}>
@@ -104,23 +105,34 @@ const Efectivo = () => {
           m={0}
           sx={{ listStyle: "none" }}
         >
-          <CashTransaction color="error" icon="percent" name="Anual" value="$2,500" />
+          <CashTransaction color="primary" icon="percent" name="Anual" value="97 %" />
           <CashTransaction
-            color="success"
-            icon="arrow_upward"
+            color={pf.inversionAnual > 0 ? 'success' : 'error'}
+            icon={pf.inversionAnual > 0 ? 'arrow_upward' : 'arrow_downward'}
             name="Sin sacar el dinero en 12 meses"
-            value="$ 2,000"
+            value={`$ ${pf.inversionAnual}`}
           />
           <CashTransaction
-            color="success"
-            icon="arrow_upward"
+            color={pf.inversionAnualMenosCuotas > 0 ? 'success' : 'error'}
+            icon={pf.inversionAnualMenosCuotas > 0 ? 'arrow_upward' : 'arrow_downward'}
             name="Retirando la cuota mes a mes para pagar la tarjeta"
-            value="$ 2,000"
+            value={`$ ${pf.inversionAnualMenosCuotas}`}
           />
         </SoftBox>
       </SoftBox>
     </Card>
   );
+};
+
+Efectivo.propTypes = {
+  mp: PropTypes.shape({
+    inversionAnual: PropTypes.number,
+    inversionAnualMenosCuotas: PropTypes.number,
+  }),
+  pf: PropTypes.shape({
+    inversionAnual: PropTypes.number,
+    inversionAnualMenosCuotas: PropTypes.number,
+  }),
 };
 
 export default Efectivo;

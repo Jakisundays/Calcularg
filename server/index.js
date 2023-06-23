@@ -3,7 +3,6 @@ const app = fastify({ logger: false });
 const mongoose = require("mongoose");
 const MesInflacion = require("./models/inflacionMes.model");
 const AnualInflacion = require("./models/inflacionAnual.model");
-const InflacionData = require("./models/inflacionData.model");
 
 app.register(require("./plugins/envKeeper"));
 app.register(require("./plugins/axiosCaller"));
@@ -27,8 +26,10 @@ app.register(require("./routes/bcra.route"), { prefix: "/api/brca" });
 
 const obtenerInflacionMensual = async () => {
   try {
+
     const { data } = await app.axios.inflacion("/inflacion_mensual_oficial");
     const lastItem = data[data.length - 1];
+    await MesInflacion.deleteMany({});
     const nuevaInflacion = new MesInflacion({
       fecha: lastItem.d,
       valor: lastItem.v,
@@ -44,6 +45,7 @@ const obtenerInflacionAnual = async () => {
   try {
     const { data } = await app.axios.inflacion("/inflacion_esperada_oficial");
     const lastItem = data[data.length - 1];
+    await AnualInflacion.deleteMany({});
     const nuevaInflacion = new AnualInflacion({
       fecha: lastItem.d,
       valor: lastItem.v,

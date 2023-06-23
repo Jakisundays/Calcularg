@@ -8,3 +8,6 @@ Pedirle ayuda a Liam con los de invierto ya.
 ajustar componentes para mejor ui
 Hacer responsivo el diseno
 Deploy front y back
+
+dolares api
+https://www.dolarsi.com/api/api.php?type=valoresprincipales

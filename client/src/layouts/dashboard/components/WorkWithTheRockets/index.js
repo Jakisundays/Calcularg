@@ -39,6 +39,7 @@ function WorkWithTheRockets({ altura, desc, titulo }) {
           <SoftTypography
             component="a"
             href="https://estadisticasbcra.com/"
+            target="_blank"
             variant="button"
             color="white"
             fontWeight="medium"
@@ -60,7 +61,7 @@ function WorkWithTheRockets({ altura, desc, titulo }) {
               },
             }}
           >
-            Read More
+            Mas detalles
             <Icon sx={{ fontWeight: "bold" }}>arrow_forward</Icon>
           </SoftTypography>
         </SoftBox>

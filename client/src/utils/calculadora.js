@@ -29,5 +29,47 @@ export const calcularValorCuota = (cuotas, inflacion, cantidadCuotas) => {
 
 export const calcularTasaRecargo = (contado, totalCuotas) => {
   const numerador = (totalCuotas - contado) / contado;
-  return numerador * 100;
+  const tasaRecargo = numerador * 100;
+  return Number.isInteger(tasaRecargo) ? tasaRecargo.toFixed(0) : tasaRecargo.toFixed(2);
 };
+
+export const agregarEspacios = (numero) => {
+  const numeroString = numero.toString(); // Convertir el número a una cadena de texto
+  let resultado = "";
+
+  for (let i = numeroString.length - 1; i >= 0; i--) {
+    resultado = numeroString.charAt(i) + resultado;
+
+    // Agregar un espacio cada tres dígitos, excepto al principio del número
+    if ((numeroString.length - i) % 3 === 0 && i !== 0) {
+      resultado = " " + resultado;
+    }
+  }
+
+  return resultado;
+};
+
+export const calcularInversion = (contado, porcentaje, cantidadCuotas, monto) => {
+  const interestRate = porcentaje / 12;
+  const adjustedRate = 1 + interestRate;
+
+  
+  let inversionAnual = contado * Math.pow(adjustedRate, cantidadCuotas);
+  
+  let inversionAnualMenosCuotas = contado;
+  for (let i = 0; i < cantidadCuotas; i++) {
+    inversionAnualMenosCuotas = (inversionAnualMenosCuotas * adjustedRate) - monto;
+  }
+  console.log({
+    inversionAnual: Math.round(inversionAnual),
+    inversionAnualMenosCuotas: Math.round(inversionAnualMenosCuotas),
+    monto
+  })
+  
+  return {
+    inversionAnual: Math.round(inversionAnual),
+    inversionAnualMenosCuotas: Math.round(inversionAnualMenosCuotas)
+  };
+};
+
+

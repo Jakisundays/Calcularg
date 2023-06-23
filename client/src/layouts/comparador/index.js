@@ -2,8 +2,8 @@
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
 import Divider from "@mui/material/Divider";
-import { Box, Card, IconButton, useMediaQuery } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Box, Card, IconButton, MenuItem, Select } from "@mui/material";
+import { useEffect, useRef, useReducer } from "react";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 // Soft UI Dashboard React components
@@ -25,20 +25,42 @@ import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets"
 import useInflacion from "hooks/useInflacion";
 import Results from "./components/Results";
 
-//utils
+// utils
 import { convertDate } from "../../utils/convertDate";
 
-const Comparador = () => {
-  const [contado, setContado] = useState("");
-  const [cuotas, setCuotas] = useState("");
-  const [inflacion, setInflacion] = useState("");
-  const [cantidadCuotas, setCantidadCuotas] = useState("");
-  const [showResults, setShowResults] = useState(false);
-  const [error, setError] = useState(false);
-  const [currentColor, setCurrentColor] = useState("#3acaeb"); // Initial color
-  const matches = useMediaQuery("(max-width:1536px)");
+const initialState = {
+  contado: "",
+  cuotas: "",
+  inflacion: "",
+  cantidadCuotas: "",
+  showResults: false,
+  error: false,
+  currentColor: "#3acaeb",
+};
 
-  const resultsRef = useRef(null); // Referencia al elemento con el id "results"
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "reset":
+      return initialState;
+    case "setField":
+      return { ...state, [action.field]: action.value };
+    case "setShowResults":
+      return { ...state, showResults: action.value };
+    case "setCurrentColor":
+      return { ...state, currentColor: action.value };
+    default:
+      return state;
+  }
+};
+
+const cantidadCuotasOptions = [3, 6, 9, 12, 18, 24, 30, 32, 36, 48];
+
+const Comparador = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { contado, cuotas, inflacion, cantidadCuotas, showResults, currentColor } = state;
+  const resultsRef = useRef(null);
+
+  const { inflacionMensual, inflacionAnual } = useInflacion();
 
   useEffect(() => {
     if (showResults) {
@@ -48,33 +70,48 @@ const Comparador = () => {
     }
   }, [showResults]);
 
-  const { inflacionMensual, inflacionAnual } = useInflacion();
-
-  // useEffect(() => {
-  //   inflacionMensual.fecha &&
-  //     console.log({ inflacionMensual: convertDate(inflacionMensual.fecha) });
-  // }, [inflacionMensual, inflacionAnual]);
-
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentColor((prevColor) => (prevColor === "#3acaeb" ? "#17c1e8" : "#3acaeb")); // Toggle between colors
+      dispatch({
+        type: "setCurrentColor",
+        value: currentColor === "#3acaeb" ? "#17c1e8" : "#3acaeb",
+      });
     }, 2000);
 
     return () => {
-      clearInterval(interval); // Clear the interval when component unmounts
+      clearInterval(interval);
     };
   }, []);
 
-  // useEffect(() => {
-  //   console.log({ matches });
-  // }, [matches]);
-
   const restart = () => {
-    setContado("");
-    setCuotas("");
-    setInflacion("");
-    setCantidadCuotas("");
-    setShowResults(false);
+    dispatch({ type: "reset" });
+  };
+
+  const handleInputChange = (field, value) => {
+    dispatch({ type: "setField", field, value });
+  };
+
+  const handleResults = () => {
+    dispatch({ type: "setShowResults", value: true });
+  };
+
+  const isValidForm =
+    contado === "" ||
+    cuotas === "" ||
+    inflacion === "" ||
+    cantidadCuotas === "" ||
+    inflacion > 10 ||
+    inflacion < 0;
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
   };
 
   return (
@@ -137,7 +174,7 @@ const Comparador = () => {
                     }}
                     value={contado}
                     success={contado > 0}
-                    onChange={(e) => setContado(e.target.value)}
+                    onChange={(e) => handleInputChange("contado", e.target.value)}
                   />
                 </SoftBox>
                 <SoftBox>
@@ -155,7 +192,7 @@ const Comparador = () => {
                     }}
                     value={cuotas}
                     success={cuotas > 0}
-                    onChange={(e) => setCuotas(e.target.value)}
+                    onChange={(e) => handleInputChange("cuotas", e.target.value)}
                   />
                 </SoftBox>
                 <SoftBox>
@@ -179,7 +216,7 @@ const Comparador = () => {
                     value={inflacion}
                     success={inflacion > 0 && inflacion <= 10}
                     error={inflacion > 10 || inflacion < 0}
-                    onChange={(e) => setInflacion(e.target.value)}
+                    onChange={(e) => handleInputChange("inflacion", e.target.value)}
                   />
                 </SoftBox>
                 <SoftBox>
@@ -188,41 +225,31 @@ const Comparador = () => {
                       Cantidad de cuotas
                     </SoftTypography>
                   </SoftBox>
-                  <SoftInput
-                    type="number"
-                    placeholder="12"
-                    icon={{
-                      component: "payments",
-                      direction: "right",
-                    }}
+                  <Select
                     value={cantidadCuotas}
-                    success={cantidadCuotas > 0}
-                    onChange={(e) => setCantidadCuotas(e.target.value)}
-                  />
+                    displayEmpty
+                    inputProps={{ "aria-label": "Without label" }}
+                    MenuProps={MenuProps}
+                    onChange={(e) => handleInputChange("cantidadCuotas", e.target.value)}
+                  >
+                    <MenuItem disable value="">
+                      <p style={{ opacity: ".5" }}>Selecciona la cantidad de cuotas</p>
+                    </MenuItem>
+                    <MenuItem value={1}>1 cuota</MenuItem>
+                    {cantidadCuotasOptions.map((option, i) => (
+                      <MenuItem key={i} value={option}>{`${option} cuotas`}</MenuItem>
+                    ))}
+                  </Select>
                 </SoftBox>
 
                 <SoftButton
                   variant="contained"
                   color="dark"
-                  onClick={() => setShowResults(true)}
+                  onClick={handleResults}
                   fullWidth
-                  disabled={
-                    contado === "" ||
-                    cuotas === "" ||
-                    inflacion === "" ||
-                    cantidadCuotas === "" ||
-                    inflacion > 10 ||
-                    inflacion < 0
-                  }
+                  disabled={isValidForm}
                 >
-                  {contado === "" ||
-                  cuotas === "" ||
-                  inflacion === "" ||
-                  cantidadCuotas === "" ||
-                  inflacion > 10 ||
-                  inflacion < 0
-                    ? "Completa todo los campos"
-                    : "Calcular"}
+                  {isValidForm ? "Completa todo los campos" : "Calcular"}
                 </SoftButton>
               </SoftBox>
             </Card>
@@ -263,6 +290,7 @@ const Comparador = () => {
             </Box>
           </Grid>
         </Grid>
+
         <Divider />
       </SoftBox>
 
@@ -270,8 +298,6 @@ const Comparador = () => {
         ref={resultsRef}
         id="results"
         style={{
-          // visibility: showResults ? "visible" : "hidden",
-          transition: "all 0.5s ease-in-out",
           display: showResults ? "block" : "none",
         }}
       >
@@ -280,8 +306,11 @@ const Comparador = () => {
           cuotas={Number(cuotas)}
           inflacion={Number(inflacion)}
           cantidadCuotas={Number(cantidadCuotas)}
+          restart={restart}
         />
+        <Divider />
       </div>
+
       <Footer />
     </DashboardLayout>
   );
