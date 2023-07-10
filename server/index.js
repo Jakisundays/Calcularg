@@ -23,10 +23,11 @@ app.get("/", async (request, reply) => {
 });
 
 app.register(require("./routes/bcra.route"), { prefix: "/api/brca" });
+app.register(require("./routes/dolar.route"), { prefix: "/api/dolar" });
+app.register(require("./routes/real.route"), { prefix: "/api/real" });
 
 const obtenerInflacionMensual = async () => {
   try {
-
     const { data } = await app.axios.inflacion("/inflacion_mensual_oficial");
     const lastItem = data[data.length - 1];
     await MesInflacion.deleteMany({});
@@ -89,7 +90,9 @@ const start = async () => {
         app.log.error(err);
         process.exit(1);
       }
-      obtenerDatosPeriodicamente();
+      if (development) {
+        obtenerDatosPeriodicamente();
+      }
       console.log(`Server listening on ${address}`);
     }
   );

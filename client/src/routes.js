@@ -32,6 +32,8 @@ import SignUp from "layouts/authentication/sign-up";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import PaymentsIcon from '@mui/icons-material/Payments';
 import Office from "examples/Icons/Office";
 import Settings from "examples/Icons/Settings";
 import Document from "examples/Icons/Document";
@@ -40,6 +42,7 @@ import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 import Comparador from "layouts/comparador";
+import Dolargento from "layouts/Dolargento";
 
 const routes = [
   // {
@@ -56,10 +59,20 @@ const routes = [
     name: "¿Cuotas o Contado?",
     key: "¿Cuotas o Contado?",
     route: "/comparador",
-    icon: <Shop size="12px" />,
+    icon: <PaymentsIcon size="12px" />,
     component: <Comparador />,
     noCollapse: true,
   },
+  {
+    type: "collapse",
+    name: "Dólargento",
+    key: "Dólargento",
+    route: "/dolargento",
+    icon: <AttachMoneyIcon size="12px" />,
+    component: <Dolargento />,
+    noCollapse: true,
+  },
+
   // {
   //   type: "collapse",
   //   name: "Tables",

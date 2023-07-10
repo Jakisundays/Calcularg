@@ -16,3 +16,9 @@ GET http://127.0.0.1:8000
 ###
 GET https://api.estadisticasbcra.com/inflacion_mensual_oficial
 Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4NzYxNTgsInR5cGUiOiJleHRlcm5hbCIsInVzZXIiOiJqYWNvYmd1aWxsZXJtb29vQGdtYWlsLmNvbSJ9.pCo-OfwC99B_FrGBjRhKZPVykD1X2N7tpPFqqlqaXAoBNRatnQWiHbJZ_a-Ta5aNXczyIkrQfvl-YfzZxYk24Q
+
+###
+GET https://www.dolarito.ar/api/frontend/quotations/dolar
+
+###
+GET http://0.0.0.0:8000/api/dolar

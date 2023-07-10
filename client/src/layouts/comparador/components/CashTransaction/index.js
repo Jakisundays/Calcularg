@@ -11,19 +11,19 @@ import SoftButton from "components/SoftButton";
 
 const CashTransaction = ({ color, icon, name, value }) => {
   return (
-    <SoftBox key={name} component="li" py={1} pr={2} mb={1}>
+    <SoftBox key={name} component="li" py={1} pr={1} mb={1}>
       <SoftBox display="flex" justifyContent="space-between" alignItems="center">
         <SoftBox display="flex" alignItems="center">
-          <SoftBox mr={2}>
+          <SoftBox mr={1}>
             <SoftButton variant="outlined" color={color} size="medium" iconOnly circular>
               <Icon sx={{ fontWeight: "bold" }}>{icon}</Icon>
             </SoftButton>
           </SoftBox>
-          <SoftTypography variant="button" fontWeight="medium" gutterBottom>
+          <SoftTypography variant="caption" fontWeight="medium" gutterBottom>
             {name}
           </SoftTypography>
         </SoftBox>
-        <SoftTypography variant="button" color={color} fontWeight="medium" textGradient>
+        <SoftTypography align='end' variant="button" color={color} fontWeight="medium" textGradient>
           {value}
         </SoftTypography>
       </SoftBox>

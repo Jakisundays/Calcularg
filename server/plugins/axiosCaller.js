@@ -9,8 +9,11 @@ const axiosCaller = async (fastify, opts, done) => {
           Authorization: `Bearer ${fastify.config.BCRA_TOKEN}`,
         },
       },
-      dummy: {
-        baseURL: "https://jsonplaceholder.typicode.com",
+      dolar: {
+        baseURL: "https://www.dolarito.ar/api/frontend/quotations/dolar",
+      },
+      real: {
+        baseURL: "https://bluepy.vercel.app/api/real"
       }
     },
   });

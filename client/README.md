@@ -4,10 +4,15 @@ news: S9RBMZG13BGXE5RC
 
 http://127.0.0.1:8000/api/brca/inflacion_mensual_ar
 
-Pedirle ayuda a Liam con los de invierto ya.
-ajustar componentes para mejor ui
-Hacer responsivo el diseno
-Deploy front y back
+-Hacer responsivo el diseno
+-Arreglar badge dependiendo si es + o negativo la varition de dolar
+-Arreglar diseno de Cuanto si solo hay venta.
+-Capitalize everyword
+-Arreglar Info.
 
 dolares api
 https://www.dolarsi.com/api/api.php?type=valoresprincipales
+euro
+https://api.bluelytics.com.ar/v2/latest
+real oficial: https://bluepy.vercel.app/api/real/oficial
+real blue: https://bluepy.vercel.app/api/real/blue

@@ -78,13 +78,13 @@ const Efectivo = ({ mp, pf }) => {
             color={mp.inversionAnual > 0 ? 'success' : 'error'}
             icon={mp.inversionAnual > 0 ? 'arrow_upward' : 'arrow_downward'}
             name="Sin sacar el dinero en 12 meses"
-            value={`$ ${mp.inversionAnual}`}
+            value={`$${mp.inversionAnual}`}
           />
           <CashTransaction
             color={mp.inversionAnualMenosCuotas > 0 ? 'success' : 'error'}
             icon={mp.inversionAnualMenosCuotas > 0 ? 'arrow_upward' : 'arrow_downward'}
             name="Retirando la cuota mes a mes para pagar la tarjeta"
-            value={`$ ${mp.inversionAnualMenosCuotas}`}
+            value={`$${mp.inversionAnualMenosCuotas}`}
           />
         </SoftBox>
         <SoftBox mt={1} mb={2}>
@@ -110,13 +110,13 @@ const Efectivo = ({ mp, pf }) => {
             color={pf.inversionAnual > 0 ? 'success' : 'error'}
             icon={pf.inversionAnual > 0 ? 'arrow_upward' : 'arrow_downward'}
             name="Sin sacar el dinero en 12 meses"
-            value={`$ ${pf.inversionAnual}`}
+            value={`$${pf.inversionAnual}`}
           />
           <CashTransaction
             color={pf.inversionAnualMenosCuotas > 0 ? 'success' : 'error'}
             icon={pf.inversionAnualMenosCuotas > 0 ? 'arrow_upward' : 'arrow_downward'}
             name="Retirando la cuota mes a mes para pagar la tarjeta"
-            value={`$ ${pf.inversionAnualMenosCuotas}`}
+            value={`$${pf.inversionAnualMenosCuotas}`}
           />
         </SoftBox>
       </SoftBox>
