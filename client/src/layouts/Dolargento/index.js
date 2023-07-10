@@ -18,10 +18,11 @@ const Dolargento = () => {
     const obtenerDatos = async () => {
       try {
         const [dolarRes, euroRes, realRes1, realRes2] = await Promise.all([
-          fetch(process.env.REACT_APP_DOLAR_URL),
+          fetch(`${REACT_APP_SERVER_URL}/api/dolar`),
           fetch("https://api.bluelytics.com.ar/v2/latest"),
-          fetch(`${process.env.REACT_APP_REAL_URL}/oficial`),
-          fetch(`${process.env.REACT_APP_REAL_URL}/blue`),
+          fetch(`${REACT_APP_SERVER_URL}/api/real/oficial`),
+          fetch(`${REACT_APP_SERVER_URL}/api/real/blue`),
+          ,
         ]);
 
         const [dolarData, euroData, realData1, realData2] = await Promise.all([
