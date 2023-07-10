@@ -41,7 +41,7 @@ const Dolargento = () => {
         ];
         setReales(reales);
       } catch (error) {
-        // console.log({ error });
+        console.log({ error });
         setError(true);
       }
     };
