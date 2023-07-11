@@ -20,8 +20,8 @@ const Dolargento = () => {
         const [dolarRes, euroRes, realRes1, realRes2] = await Promise.all([
           fetch("https://www.dolarito.ar/api/frontend/quotations/dolar"),
           fetch("https://api.bluelytics.com.ar/v2/latest"),
-          fetch("https://bluepy.vercel.app/api/real/oficial"),
-          fetch("https://bluepy.vercel.app/api/real/blue"),
+          fetch(`${process.env.REACT_APP_SERVER_URL}/api/real/oficial`),
+          fetch(`${process.env.REACT_APP_SERVER_URL}/api/real/blue`),
           ,
         ]);
 
