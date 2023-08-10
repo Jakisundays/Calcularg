@@ -1,12 +1,33 @@
 const fastify = require("fastify");
 const app = fastify({ logger: false });
 const mongoose = require("mongoose");
+
+const multer = require("fastify-multer");
+
 const MesInflacion = require("./models/inflacionMes.model");
 const AnualInflacion = require("./models/inflacionAnual.model");
 
+// Register the 'envKeeper' plugin.
 app.register(require("./plugins/envKeeper"));
-app.register(require("./plugins/axiosCaller"));
+
+// Register the 'corsOpts' plugin.
 app.register(require("./plugins/corsOpts"));
+
+// Register the 'cookieSession' plugin.
+app.register(require("./plugins/cookieSession"));
+
+// Register the 'passportAuth' plugin.
+app.register(require("./plugins/passportAuth"));
+
+// Register the 'axiosCaller' plugin.
+app.register(require("./plugins/axiosCaller"));
+
+// Register the 'bcrypt' plugin.
+app.register(require("./plugins/bcrypt"));
+
+// Register the 'jwtAuth' plugin.
+app.register(require("./plugins/tokens"));
+
 
 app.setErrorHandler((error, request, reply) => {
   if (reply.sent) {
@@ -22,9 +43,14 @@ app.get("/", async (request, reply) => {
   return { Calacularg: "Finance tool." };
 });
 
+// Register the 'inflacion' plugin.
 app.register(require("./routes/bcra.route"), { prefix: "/api/brca" });
 app.register(require("./routes/dolar.route"), { prefix: "/api/dolar" });
+app.register(require("./routes/euro.route"), { prefix: "/api/euro" });
 app.register(require("./routes/real.route"), { prefix: "/api/real" });
+
+// Users Routes
+app.register(require("./routes/users.route"), { prefix: "/api/users" });
 
 const obtenerInflacionMensual = async () => {
   try {

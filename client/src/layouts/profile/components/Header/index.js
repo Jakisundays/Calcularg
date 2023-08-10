@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react";
 
 // @mui material components
@@ -8,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import PropTypes from "prop-types";
 
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
@@ -29,7 +28,7 @@ import breakpoints from "assets/theme/base/breakpoints";
 import burceMars from "assets/images/bruce-mars.jpg";
 import curved0 from "assets/images/curved-images/curved0.jpg";
 
-function Header() {
+function Header({ username, avatar }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 
@@ -57,7 +56,6 @@ function Header() {
 
   return (
     <SoftBox position="relative">
-      <DashboardNavbar absolute light />
       <SoftBox
         display="flex"
         alignItems="center"
@@ -90,7 +88,7 @@ function Header() {
         <Grid container spacing={3} alignItems="center">
           <Grid item>
             <SoftAvatar
-              src={burceMars}
+              src={avatar ?? burceMars}
               alt="profile-image"
               variant="rounded"
               size="xl"
@@ -100,11 +98,11 @@ function Header() {
           <Grid item>
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                Alex Thompson
+                {username}
               </SoftTypography>
-              <SoftTypography variant="button" color="text" fontWeight="medium">
+              {/* <SoftTypography variant="button" color="text" fontWeight="medium">
                 CEO / Co-Founder
-              </SoftTypography>
+              </SoftTypography> */}
             </SoftBox>
           </Grid>
           <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
@@ -126,5 +124,10 @@ function Header() {
     </SoftBox>
   );
 }
+
+Header.propTypes = {
+  username: PropTypes.string.isRequired,
+  avatar: PropTypes.string, // This prop is optional
+};
 
 export default Header;

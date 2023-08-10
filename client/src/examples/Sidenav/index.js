@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useEffect } from "react";
 
 // react-router-dom components
@@ -42,6 +27,8 @@ import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
 
 // Soft UI Dashboard React context
 import { useSoftUIController, setMiniSidenav } from "context";
+import { useUserAuth } from "context/contextManager";
+import LogoutBtn from "components/LogoutBtn";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useSoftUIController();
@@ -51,6 +38,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const collapseName = pathname.split("/").slice(1)[0];
 
   const closeSidenav = () => setMiniSidenav(dispatch, true);
+
+  const { currentUser } = useUserAuth();
 
   useEffect(() => {
     // A function that sets the mini state of the sidenav.
@@ -157,22 +146,10 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       </SoftBox>
       <Divider />
       <List>{renderRoutes}</List>
-      {/* <SoftBox pt={2} my={2} mx={2} mt="auto">
-        <SidenavCard />
-        <SoftBox mt={2}>
-          <SoftButton
-            component="a"
-            href="https://creative-tim.com/product/soft-ui-dashboard-pro-react"
-            target="_blank"
-            rel="noreferrer"
-            variant="gradient"
-            color={color}
-            fullWidth
-          >
-            upgrade to pro
-          </SoftButton>
-        </SoftBox>
-      </SoftBox> */}
+      <SoftBox pt={2} my={2} mx={2} mt="auto">
+        {/* <SidenavCard /> */}
+        {currentUser?.username && <LogoutBtn />}
+      </SoftBox>
     </SidenavRoot>
   );
 }

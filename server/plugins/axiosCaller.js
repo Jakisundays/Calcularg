@@ -10,11 +10,12 @@ const axiosCaller = async (fastify, opts, done) => {
         },
       },
       dolar: {
-        baseURL: "https://www.dolarito.ar/api/frontend/quotations/dolar",
+        baseURL: "https://dolar-api-argentina.vercel.app/v1",
       },
       real: {
-        baseURL: "https://bluepy.vercel.app/api/real"
-      }
+        baseURL: "https://bluepy.vercel.app/api/real",
+      },
+      euro: { baseURL: "https://api.bluelytics.com.ar/v2" },
     },
   });
   done();

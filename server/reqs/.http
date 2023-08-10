@@ -22,3 +22,11 @@ GET https://www.dolarito.ar/api/frontend/quotations/dolar
 
 ###
 GET http://0.0.0.0:8000/api/dolar
+###
+GET http://0.0.0.0:8000/api/dolar/delete
+###
+GET http://0.0.0.0:8000/api/euro
+###
+GET http://0.0.0.0:8000/api/euro/delete
+###
+GET http://0.0.0.0:8000/api/real

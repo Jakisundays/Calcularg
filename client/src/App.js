@@ -25,13 +25,14 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Soft UI Dashboard React routes
-import routes from "routes";
+import { routes, userRoutes } from "routes";
 
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
 // Images
 import brand from "assets/images/logo.webp";
+import { useUserAuth } from "context/contextManager";
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
@@ -39,6 +40,8 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+
+  const { token } = useUserAuth();
 
   // Cache for the rtl
   useMemo(() => {
@@ -127,7 +130,7 @@ export default function App() {
               color={sidenavColor}
               brand={brand}
               brandName="CalcuArg"
-              routes={routes}
+              routes={token ? userRoutes : routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
             />
@@ -137,7 +140,7 @@ export default function App() {
         )}
         {layout === "vr" && <Configurator />}
         <Routes>
-          {getRoutes(routes)}
+          {getRoutes(token ? userRoutes : routes)}
           <Route path="*" element={<Navigate to="/comparador" />} />
         </Routes>
       </ThemeProvider>
@@ -151,7 +154,7 @@ export default function App() {
             color={sidenavColor}
             brand={brand}
             brandName="Calcularg"
-            routes={routes}
+            routes={token ? userRoutes : routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
@@ -161,7 +164,7 @@ export default function App() {
       )}
       {layout === "vr" && <Configurator />}
       <Routes>
-        {getRoutes(routes)}
+        {getRoutes(token ? userRoutes : routes)}
         <Route path="*" element={<Navigate to="/comparador" />} />
       </Routes>
     </ThemeProvider>

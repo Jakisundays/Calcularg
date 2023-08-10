@@ -1,4 +1,3 @@
-
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -35,11 +34,14 @@ import team1 from "assets/images/team-1.jpg";
 import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
+import { useUserAuth } from "context/contextManager";
 
 function Overview() {
+  const { currentUser } = useUserAuth();
+  console.log({ currentUser });
   return (
     <DashboardLayout>
-      <Header />
+      <Header username={currentUser.username} avatar={currentUser.avatar} />
       <SoftBox mt={5} mb={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} xl={4}>

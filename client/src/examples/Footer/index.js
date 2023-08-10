@@ -87,8 +87,8 @@ Footer.defaultProps = {
   company: { href: "https://www.linkedin.com/in/jacobguillermo/", name: "Jacob" },
   links: [
     { href: "https://github.com/Jakisundays", name: "Developer" },
-    // { href: "https://www.linkedin.com/in/jacobguillermo/", name: "About Us" },
-    // { href: "https://www.creative-tim.com/blog", name: "Blog" },
+    { href: "/#/privacypolicy", name: "Privacy Policy" },
+    { href: "/#/termsofservices", name: "Terms of Services" },
     // { href: "https://www.creative-tim.com/license", name: "License" },
   ],
 };

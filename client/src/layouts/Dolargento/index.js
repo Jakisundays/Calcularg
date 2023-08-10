@@ -1,12 +1,13 @@
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import React, { useEffect, useState } from "react";
-import { Alert, CircularProgress, Divider, Grid, LinearProgress } from "@mui/material";
+import { Box, CircularProgress, Divider, Grid, Tab, Tabs } from "@mui/material";
 
 import DolarHoy from "./components/DolarHoy";
 import Cuanto from "./components/Cuanto";
 import SoftBox from "components/SoftBox";
 import Footer from "examples/Footer";
+import TabPanel from "./components/TabPanel";
 
 const Dolargento = () => {
   const [dolares, setDolares] = useState([]);
@@ -17,28 +18,23 @@ const Dolargento = () => {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const [dolarRes, euroRes, realRes1, realRes2] = await Promise.all([
+        const [dolarRes, euroRes, realRes] = await Promise.all([
           fetch(`${process.env.REACT_APP_SERVER_URL}/api/dolar`),
-          fetch("https://api.bluelytics.com.ar/v2/latest"),
-          fetch(`${process.env.REACT_APP_SERVER_URL}/api/real/oficial`),
-          fetch(`${process.env.REACT_APP_SERVER_URL}/api/real/blue`),
+          fetch(`${process.env.REACT_APP_SERVER_URL}/api/euro`),
+          fetch(`${process.env.REACT_APP_SERVER_URL}/api/real`),
         ]);
 
-        const [dolarData, euroData, realData1, realData2] = await Promise.all([
+        const [dolarData, euroData, realData] = await Promise.all([
           dolarRes.json(),
           euroRes.json(),
-          realRes1.json(),
-          realRes2.json(),
+          realRes.json(),
         ]);
+
+        console.log({ euroData });
 
         setDolares(dolarData);
         setEuros(euroData);
-
-        const reales = [
-          { ...realData1, currency: "Real Oficial" },
-          { ...realData2, currency: "Real Blue" },
-        ];
-        setReales(reales);
+        setReales(realData);
       } catch (error) {
         console.log({ error });
         setError(true);
@@ -53,10 +49,23 @@ const Dolargento = () => {
     });
   }, []);
 
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const parseNumber = (str) => {
     const cleanedStr = str.replace(",", ".");
     return +cleanedStr;
   };
+
+  function a11yProps(index) {
+    return {
+      id: `full-width-tab-${index}`,
+      "aria-controls": `full-width-tabpanel-${index}`,
+    };
+  }
 
   return (
     <DashboardLayout>
@@ -68,214 +77,240 @@ const Dolargento = () => {
         </Grid>
       </Grid>
 
-      {dolares.oficial ? (
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={"Dolar Oficial"}
-              fecha={dolares.oficial.date}
-              buy={parseNumber(dolares.oficial.buy)}
-              sell={parseNumber(dolares.oficial.sell)}
-              variation={parseNumber(dolares.oficial.variation)}
-              info={
-                "El dólar oficial o minorista es el precio al que pueden acceder los particulares."
-              }
-              spread={dolares.oficial.spread}
+      <SoftBox borderRadius="lg" shadow="lg" opacity={1} p={1} sx={{ width: "100%" }}>
+        <SoftBox p={1} sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            variant="fullwidth"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <Tab
+              sx={{ fontSize: { xs: 12, sm: 18, md: 21, lg: 21, xl: 24 }, textAlign: "center" }}
+              label="Dolares"
+              {...a11yProps(0)}
             />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={"Dolar Blue"}
-              fecha={dolares.informal.date}
-              buy={parseNumber(dolares.informal.buy)}
-              sell={parseNumber(dolares.informal.sell)}
-              variation={parseNumber(dolares.informal.variation)}
-              info={`Se refiere al fenómeno del "dólar ilegal", que es comercializado de forma directa entre individuos privados, a través de canales informales como las "cuevas" o los vendedores callejeros, conocidos en nuestro país como "arbolitos".`}
-              spread={dolares.informal.spread}
+            <Tab
+              sx={{ fontSize: { xs: 12, sm: 18, md: 21, lg: 21, xl: 24 }, textAlign: "center" }}
+              label="Euros"
+              {...a11yProps(1)}
             />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={dolares.tarjeta.name}
-              fecha={dolares.tarjeta.date}
-              buy={parseNumber(dolares.tarjeta.buy)}
-              sell={parseNumber(dolares.tarjeta.sell)}
-              variation={parseNumber(dolares.tarjeta.variation)}
-              info={
-                "El dólar turista o dólar tarjeta es el mismo dólar que se utiliza para hacer compras en el extranjero o contratar servicios dolarizados como Netflix o Spotify. La diferencia con el dólar ahorro o solidario son las restricciones: no todas las personas pueden comprar dólares para ahorrar, pero sí pueden usar sus tarjetas para comprar bienes o servicios dolarizados al tipo de cambio oficial más impuestos (30% PAIS + 45% adelanto de ganancias). Esta tasa de impuestos del 75% se aplica solo a consumos acumulados inferiores a los U$S 300."
-              }
-              spread={dolares.tarjeta.spread}
+            <Tab
+              sx={{ fontSize: { xs: 12, sm: 18, md: 21, lg: 21, xl: 24 }, textAlign: "center" }}
+              label="Reales"
+              {...a11yProps(2)}
             />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={dolares.qatar.name}
-              fecha={dolares.qatar.date}
-              buy={parseNumber(dolares.qatar.buy)}
-              sell={parseNumber(dolares.qatar.sell)}
-              variation={parseNumber(dolares.qatar.variation)}
-              info={`El "dólar Qatar" es un nuevo tipo de cambio para compras en moneda extranjera con tarjeta de crédito y débito que superen los u$s300 al mes. Este tipo de cambio incluye un 100% de impuestos, que se divide en 30% PAIS, 45% adelanto de ganancias y 25% adelanto de bienes personales.`}
-              spread={dolares.qatar.spread}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={dolares.ahorro.name}
-              fecha={dolares.ahorro.date}
-              buy={parseNumber(dolares.ahorro.buy)}
-              sell={parseNumber(dolares.ahorro.sell)}
-              variation={parseNumber(dolares.ahorro.variation)}
-              spread={dolares.ahorro.spread}
-              info={`"Dólar ahorro" o "dólar solidario" es el término para el dólar con un impuesto del 30%. "Dólar turista" o "dólar tarjeta" también tiene impuestos (30% PAIS + 35% adelanto de ganancias). `}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={dolares.mayorista.name}
-              fecha={dolares.mayorista.date}
-              buy={parseNumber(dolares.mayorista.buy)}
-              sell={parseNumber(dolares.mayorista.sell)}
-              spread={dolares.mayorista.spread}
-              variation={parseNumber(dolares.mayorista.variation)}
-              info={
-                "El mercado mayorista es donde el Banco Central compra o vende dólares y donde operan los bancos y casas de cambio autorizadas. El dólar mayorista es más barato que el dólar minorista porque los bancos ganan dinero al ofrecer un precio más alto a las personas que el que pagaron por los dólares."
-              }
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={dolares.cripto.name}
-              fecha={dolares.cripto.date}
-              buy={parseNumber(dolares.cripto.buy)}
-              sell={parseNumber(dolares.cripto.sell)}
-              variation={parseNumber(dolares.cripto.variation)}
-              info={
-                "El dólar cripto son monedas estables que están vinculadas al dólar estadounidense. Su valor se mantiene igual al dólar y se pueden operar las 24 horas del día, los 7 días de la semana. Las tres más populares son Tether (USDT), USD Coin (USDC) y Dai (DAI). Estas monedas buscan mantener una paridad de 1 a 1 con el dólar y pueden estar respaldadas por activos financieros, otros criptoactivos o materias primas."
-              }
-              spread={dolares.cripto.spread}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={dolares.netflix.name}
-              fecha={dolares.netflix.date}
-              sell={parseNumber(dolares.netflix.sell)}
-              variation={parseNumber(dolares.netflix.variation)}
-              info={
-                "El dólar Netflix o streaming es utilizado por plataformas como Netflix, Spotify, etc. Tiene un 8% de impuesto PAIS, un 21% de IVA y un 45% a cuenta de Ganancias, lo que resulta en un recargo total del 74% en comparación con el dólar minorista."
-              }
-              spread={dolares.netflix.spread}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={dolares.mep.name}
-              fecha={dolares.mep.date}
-              sell={parseNumber(dolares.mep.sell)}
-              variation={parseNumber(dolares.mep.variation)}
-              info={`El "dólar bolsa" o "dólar MEP" es una operación legal en Argentina que se parece al "contado con liqui". Consiste en comprar bonos que cotizan tanto en pesos como en dólares en el mercado local y luego venderlos en dólares a través de un agente de bolsa. No necesitas tener una cuenta en el exterior para hacerlo, pero sí una cuenta de inversión en el país.`}
-              spread={dolares.mep.spread}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={"Dolares ledes Mep"}
-              fecha={dolares.ledesMep.date}
-              sell={parseNumber(dolares.ledesMep.sell)}
-              variation={parseNumber(dolares.ledesMep.variation)}
-              info={
-                "El valor se calcula comparando el precio de letras en pesos con el precio de la misma letra en dólares en el mercado. La referencia contiene las letras que se utilizan."
-              }
-              spread={dolares.ledesMep.spread}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={"Dolar CCL"}
-              fecha={dolares.ccl.date}
-              sell={parseNumber(dolares.ccl.sell)}
-              spread={dolares.ccl.spread}
-              variation={parseNumber(dolares.ccl.variation)}
-              info={`El CCL o "dólar cable" es un tipo de dólar bursátil que se utiliza para operar bonos, acciones o CEDEARs. A diferencia del dólar MEP, el CCL requiere un paso adicional fuera de la bolsa local, realizándose en una cuenta del exterior. Su valor se calcula comparando el precio de un bono en pesos con el mismo bono en dólares cable, usando bonos específicos como referencia. Todas las operaciones pueden realizarse en línea.`}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={3} xl={3}>
-            <Cuanto
-              title={"Dolares ledes CCL"}
-              fecha={dolares.ledesMep.date}
-              sell={parseNumber(dolares.ledesMep.sell)}
-              spread={dolares.ledesMep.spread}
-              variation={parseNumber(dolares.ledesMep.variation)}
-              info={
-                "El valor se determina comparando el precio de las letras en pesos con su precio en dólares cable, según una lista específica de letras utilizadas."
-              }
-            />
-          </Grid>
-          {euros && (
-            <>
-              <Grid item xs={12} md={4} lg={3} xl={3}>
-                <Cuanto
-                  title={"euro oficial"}
-                  sell={euros.oficial_euro.value_sell}
-                  buy={euros.oficial_euro.value_buy}
-                  spread={euros.last_update}
-                  euro
-                  info={
-                    "Tipo de cambio oficial establecido por las autoridades monetarias de un país. Es el valor al que se intercambia la moneda nacional por euros según la tasa oficial determinada por el gobierno."
-                  }
-                />
-              </Grid>
-              <Grid item xs={12} md={4} lg={3} xl={3}>
-                <Cuanto
-                  title={"euro blue"}
-                  sell={euros.blue_euro.value_sell}
-                  buy={euros.blue_euro.value_buy}
-                  euro
-                  spread={euros.last_update}
-                  info={
-                    "El Euro Blue es el tipo de cambio no oficial del euro en el mercado negro, determinado por la oferta y la demanda fuera del sistema financiero regulado."
-                  }
-                />
-              </Grid>
-            </>
-          )}
-
-          {reales &&
-            reales?.map((real, i) => (
-              <Grid key={i} item xs={12} md={4} lg={3} xl={3}>
-                <Cuanto
-                  title={real.currency}
-                  real
-                  sell={real.venta}
-                  buy={real.compra}
-                  spread={real.fecha}
-                  info={
-                    real.currency === "Real Oficial"
-                      ? " Es el tipo de cambio al cual se realizan las transacciones oficiales, como importaciones, exportaciones y operaciones financieras reguladas."
-                      : "Real blue en Argentina se refiere al tipo de cambio no oficial y más alto que se utiliza en el mercado negro de divisas para transacciones ilegales o no reguladas."
-                  }
-                />
-              </Grid>
-            ))}
-        </Grid>
-      ) : error ? (
-        <SoftBox
-          sx={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}
-        >
-          <Alert variant="filled" severity="error">
-            Lo sentimos, no fue posible obtener los datos en este momento. Por favor, inténtalo de
-            nuevo más tarde.
-          </Alert>
+          </Tabs>
         </SoftBox>
-      ) : (
-        <SoftBox
-          sx={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}
-        >
-          <CircularProgress color="dark" />
-        </SoftBox>
-      )}
-      <Divider />
-      {dolares.oficial && <Footer />}
+        <TabPanel value={value} index={0}>
+          <Grid container spacing={3} sx={{ padding: "1rem .7rem", width: "100%" }}>
+            {dolares.length > 0 ? (
+              <>
+                {dolares.map((info) => (
+                  <Grid item xs={12} md={4} lg={3} xl={3} key={info._id}>
+                    <Cuanto
+                      title={`dolar ${info.nombre}`}
+                      fecha={info.fechaActualizacion}
+                      buy={info.compra}
+                      sell={info.venta}
+                      variation={info.variacion}
+                      info={info.info}
+                      spread={"2021091"}
+                    />
+                  </Grid>
+                ))}
+                <Grid item xs={12} md={4} lg={3} xl={3}>
+                  <Cuanto
+                    title={"dolar qatar"}
+                    fecha={dolares[0].fechaActualizacion}
+                    buy={dolares[0].compra}
+                    sell={dolares[0].venta * 2}
+                    variation={dolares[0].variacion}
+                    info={`El "dólar Qatar" es un nuevo tipo de cambio para compras en moneda extranjera con tarjeta de crédito y débito que superen los u$s300 al mes. Este tipo de cambio incluye un 100% de impuestos, que se divide en 30% PAIS, 45% adelanto de ganancias y 25% adelanto de bienes personales.`}
+                    spread={"2021091"}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4} lg={3} xl={3}>
+                  <Cuanto
+                    title={"dolar ahorro"}
+                    fecha={dolares[0].fechaActualizacion}
+                    buy={dolares[0].compra}
+                    sell={dolares[0].venta * 1.75}
+                    variation={dolares[0].variacion}
+                    info={`El dólar ahorro argentino se utiliza para adquirir dólares en bancos autorizados. Su precio es el del dólar oficial más un 75% extra, que comprende el impuesto PAIS (30%) y adelanto de ganancias por turismo y gastos con tarjeta en el exterior (45%). El "dólar Qatar" es otro tipo de cambio para compras en moneda extranjera con tarjeta, aplicando un 100% de impuestos divididos en 30% PAIS, 45% adelanto de ganancias y 25% adelanto de bienes personales.`}
+                    spread={"2021091"}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4} lg={3} xl={3}>
+                  <Cuanto
+                    title={"dolar streaming"}
+                    fecha={dolares[0].fechaActualizacion}
+                    buy={dolares[0].compra}
+                    sell={dolares[0].venta * 1.74}
+                    variation={dolares[0].variacion}
+                    info={
+                      "El dólar Netflix o streaming es utilizado por plataformas como Netflix, Spotify, etc. Tiene un 8% de impuesto PAIS, un 21% de IVA y un 45% a cuenta de Ganancias, lo que resulta en un recargo total del 74% en comparación con el dólar minorista."
+                    }
+                    spread={"2021091"}
+                  />
+                </Grid>
+              </>
+            ) : (
+              <SoftBox
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "10vh",
+                  padding: "2rem 0 0 0",
+                }}
+              >
+                <CircularProgress size={50} />
+              </SoftBox>
+            )}
+          </Grid>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Grid container spacing={3} sx={{ padding: "1rem .7rem", width: "100%" }}>
+            {euros.length > 0 ? (
+              <>
+                {euros.map(
+                  ({ _id, nombre, fechaActualizacion, compra, venta, variacion, info }) => (
+                    <Grid item xs={12} md={4} lg={3} xl={3} key={_id}>
+                      <Cuanto
+                        title={nombre}
+                        fecha={fechaActualizacion}
+                        buy={compra}
+                        sell={venta}
+                        variation={variacion}
+                        info={info}
+                        euro
+                        spread={"2021091"}
+                      />
+                    </Grid>
+                  )
+                )}
+                <Grid item xs={12} md={4} lg={3} xl={3}>
+                  <Cuanto
+                    title={"euro tarjeta"}
+                    fecha={euros[0].fechaActualizacion}
+                    buy={euros[0].compra}
+                    sell={euros[0].venta * 1.75}
+                    variation={euros[0].variacion}
+                    info={
+                      "El euro turista o euro tarjeta es la misma moneda que se utiliza para hacer compras en el extranjero o contratar servicios en euros. La diferencia con el euro ahorro o solidario son las restricciones: no todas las personas pueden adquirir euros para ahorrar, pero sí pueden usar sus tarjetas para comprar bienes o servicios en euros al tipo de cambio oficial más impuestos (30% PAIS + 45% adelanto de ganancias). Esta tasa de impuestos del 75% se aplica solo a consumos acumulados inferiores a los €300."
+                    }
+                    euro
+                    spread={"2021091"}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4} lg={3} xl={3}>
+                  <Cuanto
+                    title={"euro qatar"}
+                    fecha={euros[0].fechaActualizacion}
+                    buy={euros[0].compra}
+                    sell={euros[0].venta * 2}
+                    variation={euros[0].variacion}
+                    info={
+                      "El 'euro Qatar' es un tipo de cambio aplicado a compras en moneda extranjera con tarjetas de crédito y débito que superen los €300 al mes. Este cambio incorpora un impuesto del 100%, distribuido en 30% para el país, 45% como adelanto de ganancias y 25% como adelanto de bienes personales."
+                    }
+                    euro
+                    spread={"2021091"}
+                  />
+                </Grid>
+              </>
+            ) : (
+              <SoftBox
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "10vh",
+                  padding: "2rem 0 0 0",
+                }}
+              >
+                <CircularProgress size={50} />
+              </SoftBox>
+            )}
+          </Grid>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <Grid container spacing={3} sx={{ padding: "1rem .7rem", width: "100%" }}>
+            {reales.length > 0 ? (
+              <>
+                {reales.map(
+                  ({ _id, nombre, fechaActualizacion, compra, venta, variacion, info }) => (
+                    <Grid item xs={12} md={4} lg={3} xl={3} key={_id}>
+                      <Cuanto
+                        title={nombre}
+                        fecha={fechaActualizacion}
+                        buy={compra}
+                        sell={venta}
+                        variation={variacion}
+                        info={info}
+                        real
+                        spread={"2021091"}
+                      />
+                    </Grid>
+                  )
+                )}
+                <Grid item xs={12} md={4} lg={3} xl={3}>
+                  <Cuanto
+                    title={"real tarjeta"}
+                    fecha={reales[0].fechaActualizacion}
+                    buy={reales[0].compra}
+                    sell={reales[0].venta * 1.75}
+                    variation={reales[0].variacion}
+                    info={
+                      "El real turista o real tarjeta es la misma moneda que se utiliza para hacer compras en el extranjero o contratar servicios en reales. "
+                    }
+                    real
+                    spread={"2021091"}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4} lg={3} xl={3}>
+                  <Cuanto
+                    title={"real qatar"}
+                    fecha={reales[0].fechaActualizacion}
+                    buy={reales[0].compra}
+                    sell={reales[0].venta * 2}
+                    variation={reales[0].variacion}
+                    info={
+                      "El 'real Qatar' es un tipo de cambio aplicado a compras en moneda extranjera con tarjetas de crédito y débito que superen los €300 al mes. Este cambio incorpora un impuesto del 100%, distribuido en 30% para el país, 45% como adelanto de ganancias y 25% como adelanto de bienes personales."
+                    }
+                    real
+                    spread={"2021091"}
+                  />
+                </Grid>
+              </>
+            ) : (
+              <SoftBox
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "10vh",
+                  padding: "2rem 0 0 0",
+                }}
+              >
+                <CircularProgress size={50} />
+              </SoftBox>
+            )}
+          </Grid>
+        </TabPanel>
+        {/* <TabPanel value={value} index={3}>
+          <Grid container spacing={3} sx={{ padding: "1rem .7rem", width: "100%" }}></Grid>
+        </TabPanel> */}
+      </SoftBox>
     </DashboardLayout>
   );
 };

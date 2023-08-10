@@ -24,8 +24,6 @@
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
-import VirtualReality from "layouts/virtual-reality";
-import RTL from "layouts/rtl";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
@@ -33,7 +31,7 @@ import SignUp from "layouts/authentication/sign-up";
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import PaymentsIcon from '@mui/icons-material/Payments';
+import PaymentsIcon from "@mui/icons-material/Payments";
 import Office from "examples/Icons/Office";
 import Settings from "examples/Icons/Settings";
 import Document from "examples/Icons/Document";
@@ -43,17 +41,14 @@ import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 import Comparador from "layouts/comparador";
 import Dolargento from "layouts/Dolargento";
+import Success from "layouts/success";
+import Privacy from "layouts/privacy";
 
-const routes = [
-  // {
-  //   type: "collapse",
-  //   name: "Dashboard",
-  //   key: "dashboard",
-  //   route: "/dashboard",
-  //   icon: <Shop size="12px" />,
-  //   component: <Dashboard />,
-  //   noCollapse: true,
-  // },
+// MD files
+import PrivacyPolicy from "./layouts/privacy/files/PrivacyPolicy.jsx";
+import TermsOfServices from "layouts/privacy/files/TermsOfServices";
+
+export const routes = [
   {
     type: "collapse",
     name: "¿Cuotas o Contado?",
@@ -72,71 +67,91 @@ const routes = [
     component: <Dolargento />,
     noCollapse: true,
   },
-
-  // {
-  //   type: "collapse",
-  //   name: "Tables",
-  //   key: "tables",
-  //   route: "/tables",
-  //   icon: <Office size="12px" />,
-  //   component: <Tables />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Billing",
-  //   key: "billing",
-  //   route: "/billing",
-  //   icon: <CreditCard size="12px" />,
-  //   component: <Billing />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Virtual Reality",
-  //   key: "virtual-reality",
-  //   route: "/virtual-reality",
-  //   icon: <Cube size="12px" />,
-  //   component: <VirtualReality />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "RTL",
-  //   key: "rtl",
-  //   route: "/rtl",
-  //   icon: <Settings size="12px" />,
-  //   component: <RTL />,
-  //   noCollapse: true,
-  // },
-  // { type: "title", title: "Account Pages", key: "account-pages" },
-  // {
-  //   type: "collapse",
-  //   name: "Profile",
-  //   key: "profile",
-  //   route: "/profile",
-  //   icon: <CustomerSupport size="12px" />,
-  //   component: <Profile />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Sign In",
-  //   key: "sign-in",
-  //   route: "/authentication/sign-in",
-  //   icon: <Document size="12px" />,
-  //   component: <SignIn />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Sign Up",
-  //   key: "sign-up",
-  //   route: "/authentication/sign-up",
-  //   icon: <SpaceShip size="12px" />,
-  //   component: <SignUp />,
-  //   noCollapse: true,
-  // },
+  { type: "title", title: "Eres miembro?", key: "autenticacion" },
+  {
+    type: "collapse",
+    name: "Iniciar Sesión",
+    key: "sign-in",
+    route: "/authentication/sign-in",
+    icon: <Document size="12px" />,
+    component: <SignIn />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "¡Únete ahora!",
+    key: "sign-up",
+    route: "/authentication/sign-up",
+    icon: <SpaceShip size="12px" />,
+    component: <SignUp />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "Success",
+    key: "success",
+    route: "/success/:id",
+    // icon: <SpaceShip size="12px" />,
+    component: <Success />,
+    // noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "Privacy Policy",
+    key: "privacy-policy",
+    route: "/privacypolicy",
+    // icon: <SpaceShip size="12px" />,
+    component: (
+      <Privacy>
+        <PrivacyPolicy />
+      </Privacy>
+    ),
+    // noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    name: "Terms of Services",
+    key: "terms-of-services",
+    route: "/termsofservices",
+    // icon: <SpaceShip size="12px" />,
+    component: (
+      <Privacy>
+        <TermsOfServices />
+      </Privacy>
+    ),
+    // noCollapse: true,
+  },
 ];
 
-export default routes;
+export const userRoutes = [
+  {
+    type: "collapse",
+    name: "¿Cuotas o Contado?",
+    key: "¿Cuotas o Contado?",
+    route: "/comparador",
+    icon: <PaymentsIcon size="12px" />,
+    component: <Comparador />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Dólargento",
+    key: "Dólargento",
+    route: "/dolargento",
+    icon: <AttachMoneyIcon size="12px" />,
+    component: <Dolargento />,
+    noCollapse: true,
+  },
+  { type: "title", title: "Mi cuenta", key: "account" },
+  {
+    type: "collapse",
+    name: "Perfil",
+    key: "Perfil",
+    route: "/perfil",
+    icon: <CustomerSupport size="12px" />,
+    component: <Profile />,
+    noCollapse: true,
+  },
+];
+
+// export default routes;

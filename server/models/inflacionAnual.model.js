@@ -6,4 +6,3 @@ const anualInflacionSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Anual-Inflacion", anualInflacionSchema);
-

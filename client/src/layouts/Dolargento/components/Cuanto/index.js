@@ -23,6 +23,7 @@ const Cuanto = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const variationTwoDecimals = typeof variation === "number" ? variation.toFixed(2) : "N/A";
 
   return (
     <SoftBox
@@ -65,21 +66,21 @@ const Cuanto = ({
           euro={euro}
           real={real}
         />
-        {!euro && !real && (
-          <SoftBadge
-            badgeContent={
-              variation > 0
-                ? `⬆️  ${variation}%`
-                : variation < 0
-                ? `⬇️  ${variation}%`
-                : `↔️  ${variation}`
-            }
-            size="md"
-            variant="contained"
-            color="light"
-            container
-          />
-        )}
+
+        <SoftBadge
+          badgeContent={
+            variationTwoDecimals > 0
+              ? `⬆️  ${variationTwoDecimals}%`
+              : variationTwoDecimals < 0
+              ? `⬇️  ${variationTwoDecimals}%`
+              : `↔️  ${variationTwoDecimals}`
+          }
+          size="md"
+          variant="contained"
+          color="light"
+          container
+        />
+
         <ClickAwayListener onClickAway={() => setTooltipOpen(false)}>
           <div>
             <Tooltip
@@ -156,7 +157,13 @@ const Cuanto = ({
           </SoftTypography>
         </SoftBox>
       </SoftBox>
-      <SoftTypography variant="h4" color="white" fontWeight="bold" textTransform={"capitalize"}>
+      <SoftTypography
+        variant="h4"
+        color="white"
+        fontWeight="bold"
+        textTransform={"capitalize"}
+        textAlign="center"
+      >
         {title}
       </SoftTypography>
     </SoftBox>
@@ -168,7 +175,7 @@ Cuanto.propTypes = {
   fecha: PropTypes.string,
   buy: PropTypes.number,
   sell: PropTypes.number,
-  variation: PropTypes.string,
+  variation: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   info: PropTypes.string,
   spread: PropTypes.string,
   euro: PropTypes.bool,

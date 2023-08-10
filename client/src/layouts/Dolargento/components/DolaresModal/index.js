@@ -73,9 +73,9 @@ const DolaresModal = ({ open, setOpen, title, buy, sell, fecha, spread, euro, re
         </SoftBox>
         <Divider light />
         <SoftTypography variant="body2" color="white">
-          Elige tu dirección de conversión, {euro ? "euros" : real ? "reales brasileños" : "dolares"} a pesos o al revés,
-          selecciona la tasa de cambio que prefieras y simplemente introduce la cantidad a
-          convertir.🔥💸
+          Elige tu dirección de conversión,{" "}
+          {euro ? "euros" : real ? "reales brasileños" : "dolares"} a pesos o al revés, selecciona
+          la tasa de cambio que prefieras y simplemente introduce la cantidad a convertir.🔥💸
         </SoftTypography>
         <Divider variant="middle" />
         <SoftBox
@@ -127,7 +127,11 @@ const DolaresModal = ({ open, setOpen, title, buy, sell, fecha, spread, euro, re
         <Divider variant="middle" />
         <SoftBox px={3} py={0.5}>
           <SoftInput
-            placeholder={currency === "ARS" ? "Cantidad de Pesos" : `cantidad de ${euro ? "Euros" : real ? "Reales" : "Dolares"}`}
+            placeholder={
+              currency === "ARS"
+                ? "Cantidad de Pesos"
+                : `cantidad de ${euro ? "Euros" : real ? "Reales" : "Dolares"}`
+            }
             type="number"
             icon={{
               component: "price_change",
@@ -184,20 +188,12 @@ const DolaresModal = ({ open, setOpen, title, buy, sell, fecha, spread, euro, re
             alignItems: "center",
           }}
         >
-          {euro || real ? (
-            <SoftTypography variant="overline" color="white">
-              {convertirFecha(spread)}
-            </SoftTypography>
-          ) : (
-            <>
-              <SoftTypography variant="overline" color="white">
-                {calcularHorasPasadas(fecha)}
-              </SoftTypography>
-              <SoftTypography variant="overline" color="white">
-                Spread: ${spread}
-              </SoftTypography>
-            </>
-          )}
+          <SoftTypography variant="overline" color="white">
+            {convertirFecha(fecha)}
+          </SoftTypography>
+          <SoftTypography variant="overline" color="white">
+            Spread: ${spread}
+          </SoftTypography>
         </SoftBox>
       </SoftBox>
     </Modal>
