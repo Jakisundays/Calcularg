@@ -40,8 +40,8 @@ Estamos comprometidos en mejorar continuamente la experiencia del usuario y agre
 
 ## Enlaces 🔗
 
-- [Calcularg en LinkedIn](https://lnkd.in/dSFm7G8P)
-- [Repositorio en GitHub](https://github.com/tuusuario/calcularg-app)
-- [¡Explora Calcularg en Vivo!](https://www.tu-sitio.com/calcularg)
+- [Calcularg en LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7078270239183974400?utm_source=share&utm_medium=member_desktop)
+- [Repositorio en GitHub](https://github.com/Jakisundays/Calcularg)
+- [¡Explora Calcularg en Vivo!](https://calcularg.onrender.com)
 
 ¡Calcularg está aquí para brindarte el control total de tus operaciones monetarias y ayudarte a alcanzar tus objetivos financieros! ¡Explora, compara e invierte con confianza! 🚀💰📈
