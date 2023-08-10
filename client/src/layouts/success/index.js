@@ -30,8 +30,8 @@ const Success = () => {
           }
         );
         const user = await response.json();
-        // login(user);
-        // navigate("/perfil");
+        login(user);
+        navigate("/perfil");
       } catch (error) {
         console.error({ error });
       }
